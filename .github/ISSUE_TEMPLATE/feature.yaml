@@ -1,0 +1,28 @@
+name: Feature Request
+description: Propose a new feature or functional requirement for Chronode.
+labels: ["feature"]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: Target Module / Scope
+      placeholder: "e.g., Module A, Module B, Frontend, Core..."
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description & Implementation Logic
+      placeholder: "Explain the business requirements and technical approach..."
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] Feature implemented according to functional requirements.
+        - [ ] Unit / Integration tests included and passing.
+        - [ ] OpenAPI / Swagger documentation updated (if API affected).
+    validations:
+      required: true

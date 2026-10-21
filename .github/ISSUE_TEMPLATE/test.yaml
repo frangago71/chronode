@@ -1,0 +1,34 @@
+name: Testing Task
+description: Plan and implementation of test suites or test cases.
+labels: ["testing"]
+body:
+  - type: checkboxes
+    id: test_type
+    attributes:
+      label: Test Category
+      options:
+        - label: Backend Unit Testing (JUnit 5 / Mockito)
+        - label: Backend Integration Testing (MockMvc / SpringBootTest)
+        - label: Frontend Component / Hook Testing
+        - label: Manual QA / Edge Cases
+  - type: input
+    id: target
+    attributes:
+      label: Target Component / Service
+      placeholder: "e.g., UserRepository, WorkspaceService, Auth Controller"
+    validations:
+      required: true
+  - type: textarea
+    id: plan
+    attributes:
+      label: Test Scenarios & Scope
+      placeholder: "List the main scenarios to cover (happy path, edge cases, exception handling)..."
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Definition of Done
+      value: |
+        - [ ] All test cases executed and passing green.
+        - [ ] Edge cases and failure modes covered.

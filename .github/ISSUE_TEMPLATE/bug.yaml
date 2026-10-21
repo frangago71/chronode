@@ -1,0 +1,32 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in Chronode.
+labels: ["bug"]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Affected Component / Module
+      placeholder: "e.g., Backend (User module), Frontend (Timer component), Database..."
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      placeholder: "A clear and concise description of what the bug is..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      placeholder: "1. Go to...\n2. Click on...\n3. See error..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs Actual Behavior
+      placeholder: "Describe what you expected to happen vs what actually happened."
+    validations:
+      required: true

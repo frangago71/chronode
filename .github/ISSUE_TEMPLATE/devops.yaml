@@ -1,0 +1,28 @@
+name: Infrastructure & DevOps
+description: Docker, PostgreSQL, Spring Boot config, or CI/CD tasks.
+labels: ["devops"]
+body:
+  - type: input
+    id: category
+    attributes:
+      label: Task Category / Area
+      placeholder: "e.g., Docker & PostgreSQL, CI/CD Pipeline, Spring Boot config..."
+    validations:
+      required: true
+  - type: textarea
+    id: actions
+    attributes:
+      label: Actions to Perform
+      placeholder: "Detail the technical steps for this infrastructure task..."
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification & Rollback Plan
+      value: |
+        - [ ] Process verified in local environment (`docker compose up`).
+        - [ ] Connectivity and application logs verified.
+        - [ ] Backup or rollback strategy confirmed (if applicable).
+    validations:
+      required: true
