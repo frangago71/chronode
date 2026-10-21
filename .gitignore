@@ -1,0 +1,65 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Entorno de variables y secretos
+.env
+.env.local
+.env.*.local
+*.env
+application-local.yml
+application-local.properties
+
+# Archivos de configuración de IDE y editores
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.project
+.classpath
+.settings/
+
+# Java y Maven
+backend/target/
+target/
+*.class
+*.jar
+*.war
+*.ear
+.mvn/
+backend/.mvn/
+mvnw
+mvnw.cmd
+backend/mvnw
+backend/mvnw.cmd
+
+# Node.js y Frontend
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+dist-ssr/
+frontend/dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+logs/
+*.log
+
+# Cobertura y testing
+coverage/
+*.lcov
+.nyc_output/
+
+# Guías para el desarrollo
+.guide/
+guide/
+
