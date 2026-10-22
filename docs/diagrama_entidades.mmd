@@ -1,0 +1,91 @@
+erDiagram
+    direction LR
+
+    BASE_ENTITY ||--|| USER : extends
+    BASE_ENTITY ||--|| WORKSPACE : extends
+    BASE_ENTITY ||--|| WORKSPACE_MEMBER : extends
+    BASE_ENTITY ||--|| LEVEL_DEFINITION : extends
+    BASE_ENTITY ||--|| LEVEL_NODE : extends
+    BASE_ENTITY ||--|| TIME_ENTRY : extends
+    BASE_ENTITY ||--|| TAG : extends
+
+    USER ||--o{ WORKSPACE_MEMBER : "memberships"
+    USER ||--o{ TIME_ENTRY : "creates"
+    WORKSPACE ||--o{ WORKSPACE_MEMBER : "members"
+    WORKSPACE ||--o{ LEVEL_DEFINITION : "defines levels"
+    WORKSPACE ||--o{ LEVEL_NODE : "contains nodes"
+    WORKSPACE ||--o{ TIME_ENTRY : "stores entries"
+    WORKSPACE ||--o{ TAG : "defines tags"
+
+    LEVEL_DEFINITION ||--o{ LEVEL_NODE : "classifies"
+    LEVEL_NODE ||--o{ LEVEL_NODE : "parent_of"
+
+    TIME_ENTRY ||--o{ TIME_ENTRY_LEVEL : "associated with"
+    LEVEL_NODE ||--o{ TIME_ENTRY_LEVEL : "linked to"
+
+    TIME_ENTRY ||--o{ TIME_ENTRY_TAG : "tagged with"
+    TAG ||--o{ TIME_ENTRY_TAG : "linked to"
+
+    BASE_ENTITY {
+        uuid id PK
+        instant created_at
+        instant updated_at
+    }
+
+    USER {
+        string email UK "length: 150"
+        string password_hash
+        string full_name "length: 100"
+        boolean enabled
+    }
+
+    WORKSPACE {
+        string name "length: 100"
+        string code UK "length: 50"
+        string description "length: 255"
+    }
+
+    WORKSPACE_MEMBER {
+        uuid user_id FK
+        uuid workspace_id FK
+        enum role "OWNER|ADMIN|MEMBER|VIEWER"
+    }
+
+    LEVEL_DEFINITION {
+        uuid workspace_id FK
+        string name "length: 100"
+        int depth_order
+    }
+
+    LEVEL_NODE {
+        uuid workspace_id FK
+        uuid level_definition_id FK
+        uuid parent_id FK
+        string name "length: 100"
+        string color "length: 20"
+    }
+
+    TIME_ENTRY {
+        uuid workspace_id FK
+        uuid created_by FK
+        string description "length: 255"
+        instant start_time
+        instant end_time
+        bigint duration_seconds
+    }
+
+    TAG {
+        uuid workspace_id FK
+        string name "length: 50"
+        string color "length: 20"
+    }
+
+    TIME_ENTRY_LEVEL {
+        uuid time_entry_id PK, FK
+        uuid level_node_id PK, FK
+    }
+
+    TIME_ENTRY_TAG {
+        uuid time_entry_id PK, FK
+        uuid tag_id PK, FK
+    }
