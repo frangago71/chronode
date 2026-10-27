@@ -8,13 +8,14 @@ Este documento describe la organización de carpetas y responsabilidades de los 
 
 ```text
 chronode/
-├── .guide/                 # Guías de arquitectura, flujos y estándares de desarrollo
-├── docs/                   # Documentación técnica complementaria del proyecto
+├── .github/                # Plantillas de issues y flujos de GitHub
 ├── backend/                # API REST desarrollada con Spring Boot 3 y Java 21
-├── frontend/               # Single Page Application con React, TypeScript y Vite
 ├── docker/                 # Scripts de aprovisionamiento de la base de datos
-├── docker-compose.yml      # Definición del contenedor PostgreSQL 16
+├── docs/                   # Documentación técnica complementaria del proyecto
+├── frontend/               # Single Page Application con React, TypeScript y Vite
+├── .env.example            # Plantilla de variables de entorno y secretos
 ├── .gitignore              # Reglas de exclusión para Git
+├── docker-compose.yml      # Definición del contenedor PostgreSQL 16
 └── README.md               # Resumen de la app e instrucciones de ejecución
 ```
 
