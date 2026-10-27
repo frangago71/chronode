@@ -55,7 +55,7 @@ docker compose up -d
    ```
 
 * La API estará disponible en [http://localhost:8080](http://localhost:8080).
-* Documentación interactiva Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
+* Documentación interactiva Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) (consulta la [guía de pruebas con Swagger](docs/guia_swagger.md)).
 * Endpoint de verificación de estado: [http://localhost:8080/api/v1/health](http://localhost:8080/api/v1/health).
 
 ---
@@ -103,5 +103,6 @@ Para consultar la arquitectura, estilos y reglas de ingeniería, revisa los docu
 
 * [Estructura del proyecto](docs/estructura_del_proyecto.md): Organización y responsabilidades de carpetas en el monorepo.
 * [Estándares y seguridad](docs/estandares_y_seguridad.md): Modelo de autorización stateless (JWT) y directrices de código limpio.
+* [Guía de Swagger](docs/guia_swagger.md): Instrucciones para probar autenticación y endpoints con Swagger UI.
 * [Variables de entorno](docs/variables_de_entorno.md): Gestión de credenciales, secretos JWT y configuración por entorno.
 * [Tests](docs/tests.md): Estrategia de testing, clases disponibles y comandos de ejecución por módulo.
