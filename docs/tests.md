@@ -126,6 +126,54 @@ Respuesta de ejemplo `401 Unauthorized` (`ProblemDetail`):
 
 ---
 
+#### 5. Datos de desarrollo (`com.chronode.config`)
+
+- **`DataInitializerTest`**:
+  - `deberiaSerCommandLineRunnerYEstarLimitadoAlPerfilDev`: Comprueba que `DataInitializer` implementa `CommandLineRunner` y solo se registra con el perfil `dev`.
+  - `deberiaCrearUsuariosConPasswordCodificada`: Comprueba que los usuarios de desarrollo se crean usando el `PasswordEncoder`.
+
+### Probar el inicializador con PostgreSQL y Docker
+
+El inicializador se ejecuta únicamente al arrancar Spring Boot con el perfil `dev`. Docker solo proporciona PostgreSQL; los datos de prueba los crea la aplicación.
+
+Desde la raíz del proyecto:
+
+```bash
+docker compose up -d
+```
+
+Desde otra terminal, en `backend/`:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+Usuarios disponibles:
+
+| Email | Contraseña | Rol inicial |
+|---|---|---|
+| `admin@chronode.com` | `password123` | `OWNER` |
+| `user@chronode.com` | `password123` | `MEMBER` |
+
+Para comprobar el login desde PowerShell:
+
+```powershell
+Invoke-RestMethod `
+  -Method Post `
+  -Uri http://localhost:8080/api/v1/auth/login `
+  -ContentType "application/json" `
+  -Body '{"email":"admin@chronode.com","password":"password123"}'
+```
+
+Para comprobar la idempotencia, detén y vuelve a arrancar el backend con el mismo perfil. El arranque debe completarse sin errores de restricciones únicas y no debe crear duplicados.
+
+Para una base limpia, elimina únicamente el volumen de desarrollo:
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
 ## Frontend (React + Vite)
 
 > Pendiente de añadir tests (Vitest / React Testing Library).

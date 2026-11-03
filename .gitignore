@@ -62,4 +62,5 @@ coverage/
 # Guías para el desarrollo
 .guide/
 guide/
+.github/copilot-instructions.md
 

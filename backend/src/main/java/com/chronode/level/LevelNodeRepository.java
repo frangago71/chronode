@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -15,4 +16,6 @@ public interface LevelNodeRepository extends JpaRepository<LevelNode, UUID> {
     List<LevelNode> findByParentId(UUID parentId);
     
     List<LevelNode> findByWorkspaceIdAndParentIsNull(UUID workspaceId);
+
+    Optional<LevelNode> findByWorkspaceIdAndName(UUID workspaceId, String name);
 }

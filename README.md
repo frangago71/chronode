@@ -49,7 +49,7 @@ docker compose up -d
 
 2. Asegúrate de tener Java 21 en el PATH antes de continuar.
 
-3. Inicia el servidor de desarrollo:
+3. Inicia el servidor:
    ```bash
    mvn spring-boot:run
    ```
@@ -57,6 +57,31 @@ docker compose up -d
 * La API estará disponible en [http://localhost:8080](http://localhost:8080).
 * Documentación interactiva Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) (consulta la [guía de pruebas con Swagger](docs/guia_swagger.md)).
 * Endpoint de verificación de estado: [http://localhost:8080/api/v1/health](http://localhost:8080/api/v1/health).
+
+#### Datos de prueba opcionales
+
+El backend puede ejecutarse como antes, sin activar ningún perfil:
+
+```bash
+mvn spring-boot:run
+```
+
+En este modo la aplicación arranca normalmente, pero no crea datos de prueba automáticamente.
+
+Para poblar PostgreSQL con datos locales para desarrollo y pruebas de la API, activa explícitamente el perfil `dev`:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+El inicializador del perfil `dev` crea de forma idempotente usuarios, workspaces, membresías, definiciones de nivel, nodos, tags y entradas de tiempo. Las credenciales disponibles son:
+
+| Email | Contraseña | Rol inicial |
+|---|---|---|
+| `admin@chronode.com` | `password123` | `OWNER` |
+| `user@chronode.com` | `password123` | `MEMBER` |
+
+El inicializador no se ejecuta en producción ni en los tests por defecto.
 
 ---
 
@@ -106,3 +131,4 @@ Para consultar la arquitectura, estilos y reglas de ingeniería, revisa los docu
 * [Guía de Swagger](docs/guia_swagger.md): Instrucciones para probar autenticación y endpoints con Swagger UI.
 * [Variables de entorno](docs/variables_de_entorno.md): Gestión de credenciales, secretos JWT y configuración por entorno.
 * [Tests](docs/tests.md): Estrategia de testing, clases disponibles y comandos de ejecución por módulo.
+* [Base de datos, Docker y DBeaver](docs/base_de_datos_docker_dbeaver.md): Configuración de PostgreSQL, contenedor, conexión visual y consultas útiles.
