@@ -6,6 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.chronode.config.SecurityConfig;
+import com.chronode.security.CustomUserDetailsService;
+import com.chronode.security.jwt.JwtAuthenticationEntryPoint;
+import com.chronode.security.jwt.JwtAuthenticationFilter;
+import com.chronode.security.jwt.JwtTokenProvider;
 import java.time.Instant;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +20,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(HealthCheckController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, JwtAuthenticationFilter.class, JwtAuthenticationEntryPoint.class})
 class HealthCheckControllerTest {
 
     @Autowired
@@ -24,6 +28,12 @@ class HealthCheckControllerTest {
 
     @MockitoBean
     private HealthCheckService healthCheckService;
+
+    @MockitoBean
+    private JwtTokenProvider jwtTokenProvider;
+
+    @MockitoBean
+    private CustomUserDetailsService customUserDetailsService;
 
     @Test
     @DisplayName("Debería retornar 200 OK con los datos de salud cuando se consulta el endpoint")

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
   error:
     include-message: always
     include-binding-errors: always
@@ -8,9 +8,9 @@ spring:
   application:
     name: chronode-backend
   datasource:
-    url: jdbc:postgresql://localhost:5433/chronode_db
-    username: postgres
-    password: postgrespassword
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/chronode_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgrespassword}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -26,6 +26,11 @@ spring:
   threads:
     virtual:
       enabled: true
+
+# Configuración de tokens JWT
+jwt:
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}
 
 # Configuración de documentación OpenAPI / Swagger UI
 springdoc:
