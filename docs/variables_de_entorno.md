@@ -8,7 +8,7 @@ Este documento describe la gestión centralizada de variables de entorno, creden
 
 El proyecto utiliza un archivo `.env` en la raíz del repositorio para centralizar la configuración de base de datos, puertos, credenciales de servicios y secretos criptográficos de tokens JWT.
 
-* **`.env.example`:** Plantilla de referencia versionada en Git con variables documentadas y valores seguros para entornos de desarrollo local.
+* **`.env.example`:** Plantilla de referencia versionada en Git. No contiene secretos reales.
 * **`.env`:** Archivo local donde residen los valores reales de ejecución. **Este archivo está estrictamente ignorado en `.gitignore`** para evitar la filtración accidental de credenciales y secretos en el repositorio.
 
 ---
@@ -19,15 +19,16 @@ El proyecto utiliza un archivo `.env` en la raíz del repositorio para centraliz
 | :--- | :--- | :--- |
 | `POSTGRES_DB` | Nombre de la base de datos PostgreSQL | `chronode_db` |
 | `POSTGRES_USER` | Usuario administrador de la base de datos | `postgres` |
-| `POSTGRES_PASSWORD` | Contraseña del usuario de la base de datos | `postgrespassword` |
+| `POSTGRES_PASSWORD` | Contraseña del usuario de la base de datos | Obligatoria; definirla fuera de Git |
 | `POSTGRES_PORT` | Puerto expuesto en el host para PostgreSQL | `5433` |
 | `SERVER_PORT` | Puerto del servidor Tomcat en Spring Boot | `8080` |
 | `SPRING_DATASOURCE_URL` | URL de conexión JDBC hacia PostgreSQL | `jdbc:postgresql://localhost:5433/chronode_db` |
 | `SPRING_DATASOURCE_USERNAME` | Usuario de conexión JDBC | `postgres` |
-| `SPRING_DATASOURCE_PASSWORD` | Contraseña de conexión JDBC | `postgrespassword` |
+| `SPRING_DATASOURCE_PASSWORD` | Contraseña de conexión JDBC; debe coincidir con `POSTGRES_PASSWORD` | Obligatoria; definirla fuera de Git |
 | `JWT_SECRET` | Clave secreta simétrica HMAC-SHA256 (mínimo 256 bits) | *Clave autogenerada para desarrollo* |
 | `JWT_EXPIRATION_MS` | Tiempo de vida del token de acceso (en ms) | `3600000` (1 hora) |
 | `VITE_API_URL` | URL base de la API REST consumida por el cliente Vite | `http://localhost:8080/api/v1` |
+| `SPRING_PROFILES_ACTIVE` | Perfil de Spring activo; usa `dev` para habilitar los datos de prueba | Sin perfil activo |
 
 ---
 
@@ -38,11 +39,18 @@ El proyecto utiliza un archivo `.env` en la raíz del repositorio para centraliz
    ```bash
    cp .env.example .env
    ```
-2. Modifica cualquier valor en `.env` si requieres puertos o credenciales diferentes.
+2. Sustituye `change-me` por una contraseña larga y única. No compartas ni subas `.env`.
 3. Inicia la base de datos con Docker Compose (Docker detecta y carga automáticamente el archivo `.env` de la raíz):
    ```bash
    docker compose up -d
    ```
+4. Arranca el backend con el perfil de desarrollo para habilitar el inicializador:
+   ```bash
+   cd backend
+   mvn spring-boot:run -Dspring-boot.run.profiles=dev
+   ```
+
+   El perfil `dev` crea usuarios, workspaces, niveles, nodos, tags y entradas de tiempo de prueba. El proceso es idempotente y no se ejecuta en producción ni en los tests por defecto.
 
 ### B. Ejecución del backend con variables cargadas
 Spring Boot lee directamente las variables de entorno del sistema operativo. Puedes ejecutarlas de las siguientes maneras:
@@ -55,21 +63,21 @@ Spring Boot lee directamente las variables de entorno del sistema operativo. Pue
       [System.Environment]::SetEnvironmentVariable($name, $value, "Process")
   }
   cd backend
-  mvn spring-boot:run
+  mvn spring-boot:run -Dspring-boot.run.profiles=dev
   ```
 
 * **Desde terminal Bash / Linux / macOS:**
   ```bash
   export $(grep -v '^#' .env | xargs)
   cd backend
-  mvn spring-boot:run
+  mvn spring-boot:run -Dspring-boot.run.profiles=dev
   ```
 
 * **Desde IntelliJ IDEA / Eclipse / VS Code:**
   Configurar la ruta del archivo `.env` en el *Run/Debug Configuration* (mediante plugins como *EnvFile* en IntelliJ o definiendo el archivo `envFile` en `launch.json` de VS Code).
 
 * **En entornos de producción o CI/CD:**
-  Inyectar las variables como secretos del orquestador (GitHub Actions Secrets, variables de Kubernetes ConfigMaps/Secrets o variables de entorno en contenedores Docker).
+  Inyectar `POSTGRES_PASSWORD`, `SPRING_DATASOURCE_PASSWORD`, `SPRING_DATASOURCE_URL` y `SPRING_DATASOURCE_USERNAME` como secretos del orquestador (GitHub Actions Secrets, Kubernetes Secrets o variables protegidas del proveedor de despliegue). No usar `.env.example` como archivo de producción.
 
 ---
 
