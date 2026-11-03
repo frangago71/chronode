@@ -17,4 +17,6 @@ public interface TimeEntryRepository extends JpaRepository<TimeEntry, UUID> {
     Optional<TimeEntry> findByWorkspaceIdAndEndTimeIsNull(UUID workspaceId);
     
     boolean existsByWorkspaceIdAndEndTimeIsNull(UUID workspaceId);
+
+    boolean existsByWorkspaceIdAndDescription(UUID workspaceId, String description);
 }
